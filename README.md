@@ -50,6 +50,9 @@ Follow the instructions in each SQL file and execute them in your SQL environmen
 - **Second SQL File**:
   - Provides additional practice on SQL commands and queries. Follow the instructions in the file to practice queries step by step.
 
+ ![image](https://github.com/user-attachments/assets/81f3abbc-c2a8-4216-a636-666545188656)
+
+
 ## Conclusion
 
 Once you've completed all the steps, you should have a solid understanding of SQL basics like DDL and DML, along with practical experience working with databases and tables.
