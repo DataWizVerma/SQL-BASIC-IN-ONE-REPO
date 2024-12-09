@@ -1,0 +1,72 @@
+-- Basic Question with Operators
+-- Q1:
+-- Write a query to retrieve the unique (distinct) cities from the address table and order them alphabetically.
+select distinct city from address order by city
+
+-- Q2:
+-- Write a query to find all the students who have the first name starting with the letter 'A'.
+-- Use the LIKE operator for this. Retrieve their first_name, last_name, and age.
+select first_name , last_name , age from students where first_name like 'A%'
+
+-- Q3:
+-- Write a query to retrieve the first name, last name, and age of students whose age is not between 10 and 15.
+-- Use the NOT BETWEEN operator.
+select first_name , last_name , age from students where age NOT BETWEEN 10 and 15
+
+-- Q4:
+-- Write a query to calculate the total number of distinct classes available in the classes table. 
+-- Use the COUNT and DISTINCT keywords.
+select  count(distinct class_id) as total_classes from classes;
+
+
+-- Let's move on to intermediate SQL questions.
+
+-- Intermediate Question
+-- Q5:
+-- Write a query to retrieve the total number of students in each class. Display the class_id and the total number of 
+-- students in that class as total_students. Use the student_classes table and group the results by class_id.
+
+select class_id , count(student_id) as total_students from student_classes group by class_id
+
+-- Q6:
+-- Write a query to find the list of teachers (from the staff table) whose staff_type is "Teacher" and their 
+-- salary is greater than 10,000. Include their first_name, last_name, and salary. Use a join with the staff_salary table.
+select st.first_name , st.last_name , ss.salary from staff st
+join staff_salary ss on st.staff_id =ss.staff_id where ss.salary > 10000
+
+-- Q7:
+-- Write a query to find the names of students who are enrolled in more than One classes. Display their first_name, last_name, and
+-- the total number of classes they are enrolled in. Use the student_classes table and group the results by student_id.
+SELECT s.first_name, s.last_name, COUNT(sc.class_id) AS total_classes
+FROM students s
+JOIN student_classes sc ON s.id = sc.student_id
+GROUP BY sc.student_id, s.first_name, s.last_name
+HAVING COUNT(sc.class_id) >= 1;
+
+-- Advanced Question
+-- Q8:
+-- Write a query to find the average salary of teachers (staff_type = 'Teacher') who have been working for more than 5 years.
+-- Display their first_name, last_name, and average_salary. Use the staff, staff_salary, and staff_tenure tables. The staff_tenure
+-- table has a column called years_worked that indicates how long the teacher has been working.
+
+select s.first_name , s.last_name , avg(ss.salary) as average_salary from staff s
+join 
+staff_salary ss
+on s.staff_id = ss.staff_id 
+WHERE s.staff_type = 'Teaching'
+and EXTRACT(YEAR FROM current_date)- EXTRACT(YEAR FROM s.join_date)> 5
+group by s.first_name , s.last_name
+
+-- Q9:
+-- Write a query to find the names of students who are enrolled in classes that are not taught by any teacher with a salary above 60,000.
+-- Display their first_name, last_name, and class_id. Use the students, student_classes, classes, staff, and staff_salary tables.
+SELECT s.first_name, s.last_name, sc.class_id
+FROM students s
+JOIN student_classes sc ON s.id = sc.student_id
+WHERE sc.class_id NOT IN (
+    SELECT c.class_id
+    FROM classes c
+    JOIN staff st ON c.teacher_id = st.staff_id
+    JOIN staff_salary ss ON st.staff_id = ss.staff_id
+    WHERE ss.salary > 60000
+);
