@@ -1,0 +1,39 @@
+-- Q1:
+-- Write a query to find the names of students whose age is either between 12 and 18 or greater than 25.
+-- Display their first_name, last_name, and age. Sort the results by age in ascending order and limit the output to 15 rows
+-- Use logical operators and comparison operators in your query.
+select first_name , last_name , age from students where age between 12 and 18 or age > 25 order by age limit 15;
+
+-- Q2:
+-- Write a query to retrieve the first_name, last_name, and age of students who are not enrolled in classes with class_id 2 or 4. 
+-- Use NOT IN to filter the results. 
+-- Also, ensure the results are displayed in alphabetical order by last_name.
+SELECT s.first_name, s.last_name, s.age
+FROM students s
+JOIN student_classes sc ON s.id = sc.student_id
+WHERE sc.class_id NOT IN ('2', '4')  -- Use quotes if class_id is a string
+ORDER BY s.last_name;
+
+-- Q3:
+-- Write a query to find the names and ages of students who are either younger than 10 years or between 18 and 22 years.
+-- Use comparison and logical operators.
+-- Sort the result by age in descending order and limit the output to 20 rows.
+
+select first_name , age from students where age < 10 or (age BETWEEN 18 AND 22) order by age desc limit 20
+
+-- Q4:
+-- Write a query to find the names of students whose first_name starts with the letter 'J' and who are enrolled in classes
+-- with class_id not in (1, 3, 5). Use the LIKE and NOT IN operators. Display their first_name, last_name, and class_id,
+-- and sort the results by first_name in ascending order.
+select s.first_name , s.last_name , sc.class_id from students s
+join student_classes sc on s.id=sc.student_id
+where s.first_name like 'J%' and sc.class_id not in ('1','3','5') order by s.first_name
+
+select * from student_classes
+select * from students
+-- Q5:
+-- Write a query to find the names of students who are enrolled in at least one class where the class name contains the substring 'Math'.
+-- Use the LIKE operator and ensure you join the students, student_classes, and classes tables. Display their first_name, last_name,
+-- and class_id.
+select s.first_name , s.last_name , sc.class_id  from students s join
+student_classes sc on s.id=sc.student_id
